@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtWidgets import QDesktopWidget, QTableWidgetItem,QHeaderView,QTableView, QAction, QFileDialog
+from PyQt5.QtWidgets import QMessageBox, QDesktopWidget, QTableWidgetItem,QHeaderView,QTableView, QAction, QFileDialog
 from view import Ui_MainWindow
 from exifDecode import ExifDecode
 
@@ -17,20 +17,19 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         screen = QDesktopWidget().screenGeometry()
         size = self.geometry()
         self.move((screen.width() - size.width()) / 2, (screen.height() - size.height()) / 2)
-
+        self.currfilename = ''
         self.ui.actionOpen.triggered.connect(self.openProcess)
         self.ui.actionSave_as.triggered.connect(self.saveProcess)
 
     def _showResultOnTable(self, result):
         self.ui.tableWidget.setRowCount(len(result))
         self.ui.tableWidget.setColumnCount(COLUMN_COUNT)
-        self.ui.tableWidget.setHorizontalHeaderLabels(['exif key', 'exif value'])
-        print(type(result))
+        self.ui.tableWidget.setHorizontalHeaderLabels(['ExifKey', 'ExifValue'])
         row_count = 0
         for key in result:
             self.ui.tableWidget.setItem(row_count, 0, QTableWidgetItem(str(key)))
             self.ui.tableWidget.setItem(row_count, 1, QTableWidgetItem(str(result[key])))
-            row_count += 1
+            row_count = row_count + 1
         self.ui.tableWidget.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.ui.tableWidget.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeToContents)
         self.ui.tableWidget.setEditTriggers(QTableView.NoEditTriggers)
@@ -41,14 +40,36 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self._showResultOnTable(ret)
 
     def openProcess(self):
-        openfile_name = QFileDialog.getOpenFileName(self, '选择文件', '', 'JPEG files(*.jpg *.JPG)')
-        print(openfile_name[0])
-        if openfile_name[0]:
-            self._getExifData(openfile_name[0])
+        openfile_name = QFileDialog.getOpenFileName(self, 'Choose File', '', 'JPEG files(*.jpg *.JPG)')
+        self.currfilename = openfile_name[0]
+        if self.currfilename:
+            self._getExifData(self.currfilename)
 
     def saveProcess(self):
-        savefile_name = QFileDialog.getSaveFileName(self, '保存文件', 'test.cvs', 'CVS files(*.cvs *.CVS)')
-        print(savefile_name)
-
+        if self.currfilename:
+            #change to .csv for saving
+            savefile_name = QFileDialog.getSaveFileName(self, 'Save File', self.currfilename.replace('.jpg','.csv'), 'CSV files(*.csv *.CSV)')
+            print(savefile_name)
+            i = 0
+            j = 0
+            conTents = ''
+            if savefile_name[0]:  # 如果获取的路径非空
+                f = open(savefile_name[0], 'w')  # 以写入的方式打开文件
+                with f:
+                    for i in range(COLUMN_COUNT) :
+                        conTents += self.ui.tableWidget.horizontalHeaderItem(i).text()
+                        if i != 1 :
+                            conTents += ','
+                    conTents += '\n'
+                    print(self.ui.tableWidget.rowCount())
+                    for j in range(self.ui.tableWidget.rowCount()) :
+                        conTents += '"' + self.ui.tableWidget.item(j, 0).text() + '"'
+                        conTents += ','
+                        conTents += '"' + self.ui.tableWidget.item(j, 1).text() + '"'
+                        conTents += '\n'
+                    f.write(conTents)
+            f.close()
+        else:
+            QMessageBox.critical(self, 'Error', 'NOT OPEN JPEG!', QMessageBox.Ok)
 
 
