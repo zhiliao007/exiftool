@@ -42,6 +42,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def openProcess(self):
         openfile_name = QFileDialog.getOpenFileName(self, 'Choose File', '', 'JPEG files(*.jpg *.JPG)')
         self.currfilename = openfile_name[0]
+        if len(openfile_name) > 2 :
+            QMessageBox.warning(self, 'Warning', 'Only Support First Image !', QMessageBox.Ok)
         if self.currfilename:
             self._getExifData(self.currfilename)
 
@@ -53,8 +55,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             i = 0
             j = 0
             conTents = ''
-            if savefile_name[0]:  # 如果获取的路径非空
-                f = open(savefile_name[0], 'w')  # 以写入的方式打开文件
+            if savefile_name[0]:
+                f = open(savefile_name[0], 'w')
                 with f:
                     for i in range(COLUMN_COUNT) :
                         conTents += self.ui.tableWidget.horizontalHeaderItem(i).text()
