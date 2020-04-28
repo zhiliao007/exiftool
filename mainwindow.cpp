@@ -44,6 +44,7 @@ void MainWindow::showResultOnTable(QMap<QString, QString> result)
     }
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);     //According to the space, automatically change the column width
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);   //According to the content, automatically change column width
+    ui->tableWidget->setEditTriggers(QTableView::NoEditTriggers);     //No editing
 }
 
 void MainWindow::openProcess()
