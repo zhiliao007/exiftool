@@ -24,6 +24,8 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    QString currfilename;
+
     void showResultOnTable(QMap<QString, QString> result);
 };
 #endif // MAINWINDOW_H

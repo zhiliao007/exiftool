@@ -49,15 +49,16 @@ void MainWindow::showResultOnTable(QMap<QString, QString> result)
 
 void MainWindow::openProcess()
 {
-    QStringList openfile_list = QFileDialog::getOpenFileNames(this, "Choose File", "/home/liwq/code/exif-tools", "JPEG files(*.jpg *.JPG)");
+    QStringList openfile_list = QFileDialog::getOpenFileNames(this, "Choose File", "", "JPEG files(*.jpg *.JPG)");
     if(openfile_list.size() != 0)
     {
         if(openfile_list.size() > 1)
         {
             QMessageBox::warning(this, "Warning", "Only Support First Image !", QMessageBox::Ok);
         }
-        qDebug() << openfile_list.at(0);
-        exif_data = exifDecode::get_exif_data(openfile_list.at(0));
+        qDebug() << openfile_list.value(0);
+        currfilename = openfile_list.value(0);
+        exif_data = exifDecode::get_exif_data(currfilename);
         showResultOnTable(exif_data);
     }
 }
@@ -66,4 +67,36 @@ void MainWindow::saveProcess()
 {
     //TODO: Wait for doing
     qDebug() << "TODO";
+    if(currfilename.isEmpty() == false)
+    {
+        QString savefile_name = QFileDialog::getSaveFileName(this, "Save File", currfilename, "CSV files(*.csv)");
+        qDebug() << savefile_name;
+        int i = 0, j = 0;
+        QString conTents ;
+        if (savefile_name.isEmpty() == false)
+        {
+            QFile savefile(savefile_name);
+            if(savefile.open(QIODevice::WriteOnly | QIODevice::Text))
+            {
+                for(i = 0; i < COLUMN_COUNT; i++)
+                {
+                    conTents += ui->tableWidget->horizontalHeaderItem(i)->text();
+                    if (i != 1)
+                        conTents += ',';
+                }
+                conTents += '\n';
+                qDebug() <<ui->tableWidget->rowCount();
+                for(j=0; j < ui->tableWidget->rowCount(); j++)
+                {
+                    conTents += '"' + ui->tableWidget->item(j, 0)->text() + '"';
+                    conTents += ',';
+                    conTents += '"' + ui->tableWidget->item(j, 1)->text() + '"';
+                    conTents += '\n';
+                }
+                savefile.write(conTents.toUtf8());
+            }
+            QMessageBox::information(this, "info", "csv file saved successfully!");
+            savefile.close();
+        }
+    }
 }
