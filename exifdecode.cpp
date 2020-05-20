@@ -13,7 +13,7 @@ QMap<QString, QString> exifDecode::get_exif_data(QString filename)
 
 
     char*  ch;
-    QByteArray ba = filename.toLatin1(); // must
+    QByteArray ba = filename.toUtf8(); // must
     ch=ba.data();
     Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(ch);
     image->readMetadata();

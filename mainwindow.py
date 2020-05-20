@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import QMessageBox, QDesktopWidget, QTableWidgetItem,QHeade
 from view import Ui_MainWindow
 from exifDecode import ExifDecode
 
-VERSION = 'V0.1.1'
+VERSION = 'V0.1.2'
 COLUMN_COUNT = 2
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -50,7 +50,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def saveProcess(self):
         if self.currfilename:
             #change to .csv for saving
-            savefile_name = QFileDialog.getSaveFileName(self, 'Save File', self.currfilename.replace('.jpg','.csv'), 'CSV files(*.csv *.CSV)')
+            savefile_name = QFileDialog.getSaveFileName(self, 'Save File', self.currfilename.replace('.jpg', '.csv').replace('.JPG', '.csv'), 'CSV files(*.csv *.CSV)')
             print(savefile_name)
             i = 0
             j = 0
@@ -58,7 +58,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             if savefile_name[0]:
                 f = open(savefile_name[0], 'w')
                 with f:
-                    for i in range(COLUMN_COUNT) :
+                    for i in range(COLUMN_COUNT):
                         conTents += self.ui.tableWidget.horizontalHeaderItem(i).text()
                         if i != 1 :
                             conTents += ','
@@ -71,6 +71,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                         conTents += '\n'
                     f.write(conTents)
             f.close()
+            QMessageBox.information(self, 'info', 'csv file saved successfully!')
         else:
             QMessageBox.critical(self, 'Error', 'NOT OPEN JPEG!', QMessageBox.Ok)
 

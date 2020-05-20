@@ -49,7 +49,7 @@ void MainWindow::showResultOnTable(QMap<QString, QString> result)
 
 void MainWindow::openProcess()
 {
-    QStringList openfile_list = QFileDialog::getOpenFileNames(this, "Choose File", "", "JPEG files(*.jpg *.JPG)");
+    QStringList openfile_list = QFileDialog::getOpenFileNames(this, "Choose File", "/home/liwq/code/exif-tools", "JPEG files(*.jpg *.JPG)");
     if(openfile_list.size() != 0)
     {
         if(openfile_list.size() > 1)
@@ -65,11 +65,9 @@ void MainWindow::openProcess()
 
 void MainWindow::saveProcess()
 {
-    //TODO: Wait for doing
-    qDebug() << "TODO";
     if(currfilename.isEmpty() == false)
     {
-        QString savefile_name = QFileDialog::getSaveFileName(this, "Save File", currfilename, "CSV files(*.csv)");
+        QString savefile_name = QFileDialog::getSaveFileName(this, "Save File", currfilename.replace(".jpg", ".csv").replace(".JPG", ".csv"), "CSV files(*.csv)");
         qDebug() << savefile_name;
         int i = 0, j = 0;
         QString conTents ;
