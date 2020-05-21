@@ -2,12 +2,6 @@
 #include "ui_view.h"
 #include "exifdecode.h"
 
-#include <QDebug>
-#include <QString>
-#include <QFileDialog>
-#include <QMessageBox>
-#include <QHeaderView>
-
 const QString VERSION = "V0.1.2";
 const char COLUMN_COUNT = 2;
 
@@ -17,8 +11,16 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     this->setWindowTitle("ExifTool " + VERSION + " by liwq");
+
+    this->findLineEdit = new QLineEdit(ui->centralwidget);
+
     QObject::connect(ui->actionOpen,SIGNAL(triggered()),this,SLOT(openProcess()));
     QObject::connect(ui->actionSave_as,SIGNAL(triggered()),this,SLOT(saveProcess()));
+    QObject::connect(ui->actionFind,SIGNAL(triggered()),this,SLOT(findProcess()));
+    QObject::connect(ui->actionAbout,SIGNAL(triggered()),this,SLOT(aboutProcess()));
+
+    ui->toolBar->addWidget(findLineEdit);
+    findLineEdit->hide();
 }
 
 MainWindow::~MainWindow()
@@ -97,4 +99,14 @@ void MainWindow::saveProcess()
             savefile.close();
         }
     }
+}
+
+void MainWindow::findProcess()
+{
+    findLineEdit->show();
+}
+
+void MainWindow::aboutProcess()
+{
+    QMessageBox::about(this, "about", "https://github.com/zhiliao007/exiftool");
 }
