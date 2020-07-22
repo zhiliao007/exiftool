@@ -2,7 +2,7 @@
 #include "ui_view.h"
 #include "exifdecode.h"
 
-const QString VERSION = "V0.1.2";
+const QString VERSION = APP_VERSION;
 const char COLUMN_COUNT = 2;
 
 MainWindow::MainWindow(QWidget *parent)
@@ -10,17 +10,17 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    this->setWindowTitle("ExifTool " + VERSION + " by liwq");
-
-    this->findLineEdit = new QLineEdit(ui->centralwidget);
+    this->setWindowTitle("ExifTool " + VERSION);
+// TODO: find feature
+//    this->findLineEdit = new QLineEdit(ui->centralwidget);
 
     QObject::connect(ui->actionOpen,SIGNAL(triggered()),this,SLOT(openProcess()));
     QObject::connect(ui->actionSave_as,SIGNAL(triggered()),this,SLOT(saveProcess()));
     QObject::connect(ui->actionFind,SIGNAL(triggered()),this,SLOT(findProcess()));
     QObject::connect(ui->actionAbout,SIGNAL(triggered()),this,SLOT(aboutProcess()));
-
-    ui->toolBar->addWidget(findLineEdit);
-    findLineEdit->hide();
+// TODO: find feature
+//    ui->toolBar->addWidget(findLineEdit);
+//    findLineEdit->hide();
 }
 
 MainWindow::~MainWindow()
@@ -51,7 +51,7 @@ void MainWindow::showResultOnTable(QMap<QString, QString> result)
 
 void MainWindow::openProcess()
 {
-    QStringList openfile_list = QFileDialog::getOpenFileNames(this, "Choose File", "/home/liwq/code/exif-tools", "JPEG files(*.jpg *.JPG)");
+    QStringList openfile_list = QFileDialog::getOpenFileNames(this, "Choose File", "/home", "JPEG files(*.jpg *.JPG)");
     if(openfile_list.size() != 0)
     {
         if(openfile_list.size() > 1)
@@ -103,7 +103,9 @@ void MainWindow::saveProcess()
 
 void MainWindow::findProcess()
 {
-    findLineEdit->show();
+//  TODO: find feature
+//  findLineEdit->show();
+    QMessageBox::about(this, "about", "sorry~ Please wait!");
 }
 
 void MainWindow::aboutProcess()

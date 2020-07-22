@@ -1,0 +1,3 @@
+#!/bin/sh
+# TODO: config file
+# rm -rf /opt/ExifTool/ExifTool.ini

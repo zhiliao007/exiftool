@@ -1,0 +1,12 @@
+Package: exiftool
+Version: 0.20
+Architecture: amd64
+Section: utils
+Depends: 
+Recommends: 
+Source: ExifTool
+Installed-Size: 81203.2
+Priority: extra
+Maintainer: zhiliao007 <wenqing.li@aliyun.com>
+Description: ExifTool tools
+Homepage: https://github.com/zhiliao007/exiftool

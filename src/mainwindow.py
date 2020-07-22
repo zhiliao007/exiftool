@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import QMessageBox, QDesktopWidget, QTableWidgetItem,QHeade
 from view import Ui_MainWindow
 from exifDecode import ExifDecode
 
-VERSION = 'V0.1.2'
+VERSION = 'V0.2.0'
 COLUMN_COUNT = 2
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -13,7 +13,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         super(MainWindow, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.setWindowTitle('ExifTool  ' + VERSION + 'by liwq')
+        self.setWindowTitle('ExifTool  ' + VERSION)
         screen = QDesktopWidget().screenGeometry()
         size = self.geometry()
         self.move((screen.width() - size.width()) / 2, (screen.height() - size.height()) / 2)
