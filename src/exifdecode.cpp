@@ -3,7 +3,6 @@
 
 
 
-#include <QMap>
 #include <QDebug>
 
 QMap<QString, QString> exifDecode::get_exif_data(QString filename)

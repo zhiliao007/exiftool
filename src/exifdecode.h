@@ -2,6 +2,7 @@
 #define EXIFDECODE_H
 
 #include <QString>
+#include <QMap>
 
 class exifDecode
 {

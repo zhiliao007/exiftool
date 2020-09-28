@@ -1,3 +1,4 @@
 # 忽略这个目录的exe和dll
 !*.dll
 !*.exe
+linuxdeployqt
